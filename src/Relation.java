@@ -1,6 +1,8 @@
+import java.util.Arrays;
+import java.util.List;
+
 public class Relation extends Term{
 
-    private String input;
     private String[] termSeparators = {">", "<", "="};
 
     public Relation(String input) {
@@ -9,22 +11,22 @@ public class Relation extends Term{
 
     @Override
     public int parse() {
-        //parse Expression to get Term or 2 Terms separated
-        String leftPart = "";
-        String rightPart = "";
-        String sep = "";
-        // parse string here
-        Term leftTerm = new Term(leftPart);
-        Term rightTerm = new Term(rightPart);
-        if (sep.equals(">")) {
-            return leftTerm.parse() > rightTerm.parse() ? 1 : 0;
-        }
-        if (sep.equals("<")) {
-            return leftTerm.parse() < rightTerm.parse() ? 1 : 0;
-        }
-        else {
-            return leftTerm.parse() == rightTerm.parse() ? 1 : 0;
+        String[] parsedInput = parser.parseRelation(input);
+        Term leftTerm = new Term(parsedInput[0]);
+        String sep = parsedInput[1];
+        if (sep.length() == 0) {
+            return leftTerm.parse();
+        } else {
+            Term rightTerm = new Term(parsedInput[2]);
+            if (sep.equals(">")) {
+                return leftTerm.parse() > rightTerm.parse() ? 1 : 0;
+            }
+            if (sep.equals("<")) {
+                return leftTerm.parse() < rightTerm.parse() ? 1 : 0;
+            }
+            else {
+                return leftTerm.parse() == rightTerm.parse() ? 1 : 0;
+            }
         }
     }
-
 }
